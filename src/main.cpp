@@ -171,10 +171,14 @@ void loop()
 
         split(inputString, x, y);
 
-        int steps = x.toInt(); // Convert the string to an integer
-        if (steps != 0)
+        int stepsX = x.toInt();
+        int stepsY = y.toInt();
+        if (stepsX != 0)
         {
-          moveMotor(axis::x, steps);
+          moveMotor(axis::x, stepsX);
+        }
+        if(stepsY != 0){
+          moveMotor(axis::y, stepsY);
         }
         inputString = ""; // Clear the string for new input
         Serial.println("Enter input:");
