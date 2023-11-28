@@ -132,10 +132,19 @@ void moveMotor(axis a, int steps)
 void split(arduino::String input, arduino::String &x, arduino::String &y){
   x = "";
   y = "";
+
   bool encounteredDelimiter = false;
+  int indexDelimiter = input.indexOf(':');
+  Serial.println("IN SPLIT " + indexDelimiter);
+  if (indexDelimiter == -1){
+    Serial.println("***INVALID INPUT***");
+  }
+
   for(int i = 0; i < input.length(); i++){
-    if(input[i] == ':'){
+    Serial.println("IN SPLIT: " + input[i]);
+    if(i == indexDelimiter){
       encounteredDelimiter = true;
+      Serial.println("HERE " + input[i]);
     } else{
       if(!encounteredDelimiter)
         x = x + input[i];
@@ -156,7 +165,6 @@ void loop()
       //here is where we parse the input should be #ofsteps:#ofsteps or fire
       Serial.println(inputString);
       const char FIRESTRING = 'f';
-      Serial.println(inputString[0]);
       if(inputString[0] == FIRESTRING){
         //here is where we fire the gun on command
         Serial.println("fireing");
@@ -170,6 +178,8 @@ void loop()
         arduino::String y;
 
         split(inputString, x, y);
+        Serial.println("X AXIS: " + x);
+        Serial.print("Y AXIS: " + y);
 
         int steps = x.toInt(); // Convert the string to an integer
         if (steps != 0)
